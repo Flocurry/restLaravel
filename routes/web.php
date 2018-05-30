@@ -19,7 +19,7 @@ Route::get('/roles', [
 
 Route::post('/roles/save','RolesController@store');
 
-Route::get('/roles/delete/{id}','RolesController@delete');
+Route::delete('/roles/delete/{id}','RolesController@delete');
     
 // Users
 Route::get('/users', [
@@ -27,7 +27,7 @@ Route::get('/users', [
     'uses' => 'UsersController@index'
 ]);
 
-Route::get('/users/delete/{id}','UsersController@delete');
+Route::delete('/users/delete/{id}','UsersController@delete');
 
 Route::post('/users/save','UsersController@store');
 
