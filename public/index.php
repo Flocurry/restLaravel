@@ -8,11 +8,12 @@
  */
 // Autorise les requête http depuis le serveur node
 header("Access-Control-Allow-Origin: http://localhost:4200");
-header('Access-Control-Allow-Methods: GET, POST, DELETE, PUT');
-header('Access-Control-Allow-Headers: Origin, Content-Type');
+header('Access-Control-Allow-Methods: GET, POST, DELETE, PUT, HEAD');
+header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization, Accept, X-Requested-With, x-access-token, X-CSRF-TOKEN');
+header('Access-Control-Allow-Credentials: true');
 // header("Access-Control-Allow-Headers", "Conte    nt-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-define('LARAVEL_START', microtime(true));
+define('LARAVEL_START', microtime(true));   
 
 /*
 |--------------------------------------------------------------------------

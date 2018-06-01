@@ -12,7 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'http://localhost/users/save',
-        'http://localhost/roles/save',
+        // 'http://localhost/roles/delete/*',
+        // 'http://localhost/roles/save',
     ];
 }
