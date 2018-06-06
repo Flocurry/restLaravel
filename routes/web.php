@@ -18,7 +18,7 @@ Route::get('/roles', [
     ]);
 
 Route::post('/roles/save','RolesController@store');
-
+Route::put('/roles/edit','RolesController@update');
 Route::delete('/roles/delete/{id}','RolesController@delete');
     
 // Users

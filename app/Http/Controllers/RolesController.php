@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Roles;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Roles;
 use DB;
+use Illuminate\Http\Request;
 
 class RolesController extends Controller
 {
@@ -37,13 +37,12 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        // \print_r('test');die;
-        try{
+        try {
             $user = Roles::create([
-                'libelle' => $request->get('libelle')
+                'libelle' => $request->get('libelle'),
             ]);
             return array('successAdd' => true);
-        }catch(\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             return array('successAdd' => false);
         }
     }
@@ -67,7 +66,6 @@ class RolesController extends Controller
      */
     public function edit(Roles $roles)
     {
-        //
     }
 
     /**
@@ -79,7 +77,15 @@ class RolesController extends Controller
      */
     public function update(Request $request, Roles $roles)
     {
-        //
+        $datas = array('role_id' => $request->get('role_id'), 'libelle' => $request->get('libelle'));
+        try {
+            $role = Roles::find($request->get('role_id'));
+            $role->libelle = $request->get('libelle');
+            $role->save();
+            return array('successEdit' => true);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return array('successEdit' => false);
+        }
     }
 
     /**
@@ -100,17 +106,16 @@ class RolesController extends Controller
         // On test si le rôle est rattaché à un user
         // (auquel cas on ne peut pas le supprimer)
         $user = DB::table('users as u')->where('role_id', $id)->get();
-        if (!$user->isEmpty()) {    
+        if (!$user->isEmpty()) {
             return array('successDelete' => false, 'message' => 'Ce rôle est rattaché à un user');
-        }
-        else{
+        } else {
             // Suppression du rôle
-            if($role->delete()) {
+            if ($role->delete()) {
                 return array('successDelete' => true);
             } else {
                 return array('successDelete' => false);
             }
         }
-        
+
     }
 }
