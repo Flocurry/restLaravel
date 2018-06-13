@@ -40,6 +40,7 @@ class RolesController extends Controller
         try {
             $user = Roles::create([
                 'libelle' => $request->get('libelle'),
+                'date_creation' => $request->get('date_creation')
             ]);
             return array('successAdd' => true);
         } catch (\Illuminate\Database\QueryException $e) {
