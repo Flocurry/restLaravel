@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
                 'firstname' => 'Florian',
                 'lastname' => 'DARRIGAND',
                 'email' => 'flodarrigand@msn.com',
+                'sexe' => 'Homme',
                 'role_id' => 1
             ],
             [
@@ -25,6 +26,7 @@ class UsersTableSeeder extends Seeder
                 'firstname' => 'Sandra',
                 'lastname' => 'CANDAU',
                 'email' => 'test@msn.com',
+                'sexe' => 'Femme',
                 'role_id' => 2
             ]
         ]);

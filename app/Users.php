@@ -8,7 +8,7 @@ class Users extends Model
 {
     protected $primaryKey = 'user_id';
 
-    protected $fillable = ['username','firstname','lastname','password','email','role_id'];
+    protected $fillable = ['username','firstname','lastname','password','email','sexe','role_id'];
 
     public $timestamps = false;
 }

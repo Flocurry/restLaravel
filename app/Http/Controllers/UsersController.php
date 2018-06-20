@@ -133,7 +133,7 @@ class UsersController extends Controller
      */
     public function getUserLogin(Request $request){
         $isUserAdmin = false;
-        $ret = array('successLogin' => false, 'username' => '', 'isuserisadmin' => $isUserAdmin);
+        $ret = array('successLogin' => false, 'username' => '', 'sexe' => '', 'isuserisadmin' => $isUserAdmin);
         $username = $request->get('username');
         $password = $request->get('password');
         $user = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->where('username', $username)->get();
@@ -142,7 +142,7 @@ class UsersController extends Controller
                 $isUserAdmin = true;
             }
             if(Hash::check($password, $datasUser->password)){
-                $ret = array('successLogin' => true, 'username' => $datasUser->username, 'isuserisadmin' => $isUserAdmin);
+                $ret = array('successLogin' => true, 'username' => $datasUser->username, 'sexe' => $datasUser->sexe, 'isuserisadmin' => $isUserAdmin);
             }
         }
         return $ret;
