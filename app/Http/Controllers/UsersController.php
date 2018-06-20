@@ -132,13 +132,17 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getUserLogin(Request $request){
-        $ret = array('successLogin' => false, 'username' => '');
+        $isUserAdmin = false;
+        $ret = array('successLogin' => false, 'username' => '', 'isuserisadmin' => $isUserAdmin);
         $username = $request->get('username');
         $password = $request->get('password');
-        $user = DB::table('users as u')->where('username', $username)->get();
+        $user = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->where('username', $username)->get();
         foreach ($user as $datasUser) {
+            if($datasUser->libelle == 'admin'){
+                $isUserAdmin = true;
+            }
             if(Hash::check($password, $datasUser->password)){
-                $ret = array('successLogin' => true, 'username' => $datasUser->username);
+                $ret = array('successLogin' => true, 'username' => $datasUser->username, 'isuserisadmin' => $isUserAdmin);
             }
         }
         return $ret;
