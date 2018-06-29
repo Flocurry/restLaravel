@@ -11,6 +11,8 @@ services:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=root
             - MYSQL_PASSWORD=root
+        volumes:
+            - ~/www/mysql_volumes/:/var/lib/mysql
         # Adresse IP statique pour le container
         networks:
             dock_net:
