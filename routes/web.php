@@ -32,3 +32,5 @@ Route::delete('/users/delete/{id}','UsersController@delete');
 Route::post('/users/save','UsersController@store');
 
 Route::get('/login/user', 'UsersController@getUserLogin');
+
+Route::get('/users/image/{id}', 'UsersController@getUsersImage');
