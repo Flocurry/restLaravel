@@ -19,7 +19,7 @@ services:
               ipv4_address: 192.168.0.7
     test_php:
         container_name: php
-        image: flocurry/php7:0.0.2
+        image: flocurry/php7:0.0.3
         volumes:
             - ~/www/laravel/:/var/www/html/
         # Su le même réseau que la base car les 2 containers doivent communiquer

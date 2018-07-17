@@ -8,6 +8,7 @@ use DB;
 use File;
 use Hash;
 use Illuminate\Http\Request;
+use Image;
 use Response;
 
 class UsersController extends Controller
@@ -48,12 +49,7 @@ class UsersController extends Controller
         }
 
         $file = File::get($path);
-        $type = File::mimeType($path);
-
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-
-        return $response;
+        return Image::make($file)->resize(80, 100)->response('png');
     }
 
     /**
