@@ -49,7 +49,8 @@ class UsersController extends Controller
         }
 
         $file = File::get($path);
-        return Image::make($file)->resize(80, 100)->response('png');
+
+        return Image::make($file)->resize(90, 100)->response('png');
     }
 
     /**
