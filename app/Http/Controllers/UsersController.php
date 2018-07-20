@@ -43,8 +43,7 @@ class UsersController extends Controller
 
     public function getUsersImage($filename)
     {
-        $path = public_path() . '/images/' . $filename;
-
+        $path = Storage::disk('images')->getAdapter()->getPathPrefix() . $filename;
         if (!File::exists($path)) {
             return response()->json(['message' => 'Image not found.'], 404);
         }
