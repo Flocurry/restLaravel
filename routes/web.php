@@ -34,3 +34,5 @@ Route::post('/users/save','UsersController@store');
 Route::get('/login/user', 'UsersController@getUserLogin');
 
 Route::get('/users/image/{id}', 'UsersController@getUsersImage');
+
+Route::post('/users/upload','UsersController@uploadFile');

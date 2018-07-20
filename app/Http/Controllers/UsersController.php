@@ -10,6 +10,7 @@ use Hash;
 use Illuminate\Http\Request;
 use Image;
 use Response;
+use Storage;
 
 class UsersController extends Controller
 {
@@ -62,12 +63,16 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         try {
+            // On récupère le nom du fichier
+            $filename = 'florian.png';
+            // On upload le fichier
             $user = Users::create([
                 'username' => $request->get('username'),
                 'firstname' => $request->get('firstname'),
                 'lastname' => $request->get('lastname'),
                 'password' => $request->get('password'),
                 'email' => $request->get('email'),
+                'image' => $filename,
                 'role_id' => $request->get('role_id'),
             ]);
             return array('successAdd' => true);
@@ -169,5 +174,20 @@ class UsersController extends Controller
             }
         }
         return $ret;
+    }
+
+    public function uploadFile(Request $request)
+    {
+        // print_r($request->file('image'));die;
+        // $file = $request->file('image');
+        // $filename = 'test.jpeg';
+        // if ($file) {
+        //     Storage::disk('local')->put($filename, File::get($file));
+        // }
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = $file->getClientOriginalName();
+            Storage::disk('images')->put($filename, File::get($file));
+        } 
     }
 }
