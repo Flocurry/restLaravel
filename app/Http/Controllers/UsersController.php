@@ -63,8 +63,13 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         try {
-            // On récupère le nom du fichier
-            $filename = 'florian.png';
+            $filename = 'noimage.txt';
+            // On store l'image sur le serveur
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $filename = $file->getClientOriginalName();
+                Storage::disk('images')->put($filename, File::get($file));
+            }
             // On upload le fichier
             $user = Users::create([
                 'username' => $request->get('username'),
@@ -174,20 +179,5 @@ class UsersController extends Controller
             }
         }
         return $ret;
-    }
-
-    public function uploadFile(Request $request)
-    {
-        // print_r($request->file('image'));die;
-        // $file = $request->file('image');
-        // $filename = 'test.jpeg';
-        // if ($file) {
-        //     Storage::disk('local')->put($filename, File::get($file));
-        // }
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = $file->getClientOriginalName();
-            Storage::disk('images')->put($filename, File::get($file));
-        } 
     }
 }
