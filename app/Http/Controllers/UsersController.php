@@ -109,15 +109,23 @@ class UsersController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage when logout.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Users  $users
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Users $users)
+    public function logout(Request $request)
     {
-        //
+        try {
+            $user = Users::find($request->get('user_id'));
+            // Update du champ is_connected
+            $user->is_connected = false;
+            $user->save();
+            return array('successEdit' => true);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return array('successEdit' => false);
+        }
     }
 
     /**
@@ -158,26 +166,24 @@ class UsersController extends Controller
     }
 
     /**
-     * Récupère le userqui se logge
+     * Récupère le user qui se logge
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function getUserLogin(Request $request)
+    public function login(Request $request)
     {
-        $isUserAdmin = false;
-        $ret = array('successLogin' => false, 'username' => '', 'sexe' => '', 'isuserisadmin' => $isUserAdmin);
         $username = $request->get('username');
         $password = $request->get('password');
         $user = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->where('username', $username)->get();
         foreach ($user as $datasUser) {
-            if ($datasUser->libelle == 'admin') {
-                $isUserAdmin = true;
-            }
             if (Hash::check($password, $datasUser->password)) {
-                $ret = array('successLogin' => true, 'username' => $datasUser->username, 'sexe' => $datasUser->sexe, 'isuserisadmin' => $isUserAdmin);
+                // On flag que le user est connecté
+                DB::table('users')->where('username', $username)
+                // ->where('password', Hash::make($password))
+                ->update(['is_connected' => 1]);
             }
         }
-        return $ret;
+        return $user = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->where('username', $username)->get();;
     }
 }

@@ -19,7 +19,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'flodarrigand@msn.com',
                 'sexe' => 'Homme',
                 'image' => 'florian.png', 
-                'role_id' => 1
+                'role_id' => 1,
+                'is_connected' => false
             ],
             [
                 'username' => 'Sandra',
@@ -29,7 +30,8 @@ class UsersTableSeeder extends Seeder
                 'email' => 'test@msn.com',
                 'sexe' => 'Femme',
                 'image' => 'sandra.png',
-                'role_id' => 2
+                'role_id' => 2,
+                'is_connected' => false
             ]
         ]);
     }

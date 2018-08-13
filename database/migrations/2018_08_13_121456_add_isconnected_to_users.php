@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddDateToRoles extends Migration
+class AddIsconnectedToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddDateToRoles extends Migration
      */
     public function up()
     {
-        Schema::table('roles', function (Blueprint $table) {
-            $table->dateTime('date_creation')->default(NOW());
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('is_connected');
         });
     }
 
@@ -25,6 +25,8 @@ class AddDateToRoles extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 }

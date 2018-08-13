@@ -25,6 +25,5 @@ class AddSexeToUsers extends Migration
      */
     public function down()
     {
-        //
     }
 }

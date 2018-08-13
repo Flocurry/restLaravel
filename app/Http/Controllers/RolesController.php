@@ -78,7 +78,6 @@ class RolesController extends Controller
      */
     public function update(Request $request, Roles $roles)
     {
-        $datas = array('role_id' => $request->get('role_id'), 'libelle' => $request->get('libelle'), 'date_creation' => $request->get('date_creation'));
         try {
             $role = Roles::find($request->get('role_id'));
             $role->libelle = $request->get('libelle');
