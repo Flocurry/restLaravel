@@ -184,6 +184,6 @@ class UsersController extends Controller
                 ->update(['is_connected' => 1]);
             }
         }
-        return $user = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->where('username', $username)->get();;
+        return $user = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->where('username', $username)->get();
     }
 }
