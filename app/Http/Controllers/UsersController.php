@@ -176,14 +176,16 @@ class UsersController extends Controller
         $username = $request->get('username');
         $password = $request->get('password');
         $user = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->where('username', $username)->get();
+        $ret = array();
         foreach ($user as $datasUser) {
             if (Hash::check($password, $datasUser->password)) {
                 // On flag que le user est connecté
                 DB::table('users')->where('username', $username)
                 // ->where('password', Hash::make($password))
                 ->update(['is_connected' => 1]);
+                $ret = $user;
             }
         }
-        return $user = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->where('username', $username)->get();
+        return $ret;
     }
 }
