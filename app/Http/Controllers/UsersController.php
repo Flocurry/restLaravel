@@ -79,6 +79,7 @@ class UsersController extends Controller
                 'email' => $request->get('email'),
                 'image' => $filename,
                 'role_id' => $request->get('role_id'),
+                'is_connected' => false
             ]);
             return array('successAdd' => true);
         } catch (\Illuminate\Database\QueryException $e) {
