@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Image;
 use Response;
 use Storage;
+use App\Roles;
 
 class UsersController extends Controller
 {
@@ -21,14 +22,27 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $res = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->get();
-        $datas = $res->map(function ($obj) {
-            $arr = (array) $obj;
+        // Cette méthode doit retournée un array des colonnes de la table
+        // et un array des données de la table pour le component ReactDataGrid
+        $cols = array();
+        $resDatas = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->get();
+        $resCols = array_merge(Users::$colsDataGrid, Roles::$colsDataGrid);
+        $datas = $resDatas->map(function ($obj) {
+            $arr = (array)$obj;
             $arr['image'] = 'http://localhost/users/image/' . $arr['image'];
             return $arr;
         })->toArray();
+        foreach ($resCols as $key => $arrCols) {
+            if ($arrCols['visible']) {
+                array_push($cols, array(
+                    'key' => $key,
+                    'name' => $arrCols['label'],
+                    'resizable' => $arrCols['resizable'],
+                ));
+            }
+        }
 
-        return $datas;
+        return array('columns' => $cols, 'datas' => $datas);
     }
 
     /**
@@ -183,7 +197,7 @@ class UsersController extends Controller
                 // On flag que le user est connectÃ©
                 DB::table('users')->where('username', $username)
                 // ->where('password', Hash::make($password))
-                ->update(['is_connected' => 1]);
+                    ->update(['is_connected' => 1]);
                 $ret = $user;
             }
         }
