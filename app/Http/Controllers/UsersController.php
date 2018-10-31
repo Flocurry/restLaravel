@@ -24,25 +24,59 @@ class UsersController extends Controller
     {
         // Cette méthode doit retournée un array des colonnes de la table
         // et un array des données de la table pour le component ReactDataGrid
-        $cols = array();
-        $resDatas = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->get();
-        $resCols = array_merge(Users::$colsDataGrid, Roles::$colsDataGrid);
-        $datas = $resDatas->map(function ($obj) {
-            $arr = (array)$obj;
-            $arr['image'] = 'http://localhost/users/image/' . $arr['image'];
-            return $arr;
-        })->toArray();
+        $cols = $colsQuery = $colsHidden = $colsSorting = $colsFilters = $colsWidths = $colsOrder = array();
+        // $resDatas = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->select()->get();
+        $resCols = array_merge(Users::$colsDataGrid);
         foreach ($resCols as $key => $arrCols) {
-            if ($arrCols['visible']) {
-                array_push($cols, array(
-                    'key' => $key,
-                    'name' => $arrCols['label'],
-                    'resizable' => $arrCols['resizable'],
+            // if ($arrCols['visible']) {
+            array_push($cols, array(
+                'name' => $key,
+                'title' => $arrCols['label'],
+                    // 'resizable' => $arrCols['resizable'],
+            ));
+            array_push($colsQuery, $key);
+            // Columns hidden by default
+            if (!$arrCols['visible']) {
+                array_push($colsHidden, $key);
+            }
+            // Columns which can order
+            if ($arrCols['order']) {
+                array_push($colsOrder, $key);
+            }
+            // Columns which can sort
+            if ($arrCols['sorting']) {
+                $direction = 'asc';
+                array_push($colsSorting, array(
+                    'columnName' => $key,
+                    'direction' => $direction,
                 ));
             }
+            // Default columns size
+            $size = 180;
+            if (isset($arrCols['width']) && !empty($arrCols['width'])) {
+                $size = $arrCols['width'];
+            }
+            array_push($colsWidths, array(
+                'columnName' => $key,
+                'width' => $size,
+            ));
         }
+        $resDatas = DB::table('users as u')->select($colsQuery)->get();
+        $datas = $resDatas->map(function ($obj) {
+            $arr = (array)$obj;
+            // $arr['image'] = 'http://localhost/users/image/' . $arr['image'];
+            return $arr;
+        })->toArray();
 
-        return array('columns' => $cols, 'datas' => $datas);
+        return array(
+            'columns' => $cols,
+            'columnsHidden' => $colsHidden,
+            'columnsSorting' => $colsSorting,
+            'columnsFilters' => $colsFilters,
+            'columnsOrder' => $colsOrder,
+            'columnsWidths' => $colsWidths,
+            'datas' => $datas
+        );
     }
 
     /**
