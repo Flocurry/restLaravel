@@ -13,6 +13,7 @@ class Users extends Model
     public $timestamps = false;
 
     public static $colsDataGrid = array(
+        'user_id' => array('label' => 'ID', 'visible' => true, 'resizable' => true, 'order' => true, 'sorting' => true, 'width' => 50),
         'username' => array('label' => 'Username', 'visible' => false, 'resizable' => true, 'order' => true, 'sorting' => true, 'width' => 50),
         'firstname' => array('label' => 'Firstname', 'visible' => true, 'resizable' => true, 'order' => true, 'sorting' => true),
         'lastname' => array('label' => 'Lastname', 'visible' => true, 'resizable' => true, 'order' => true, 'sorting' => true),
