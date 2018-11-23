@@ -16,7 +16,59 @@ class RolesController extends Controller
      */
     public function index()
     {
-        return Roles::all();
+        // Cette m�thode doit retourn�e un array des colonnes de la table
+        $cols = $colsQuery = $colsHidden = $colsSorting = $colsFilters = $colsWidths = $colsOrder = array();
+        // $resDatas = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->select()->get();
+        $resCols = array_merge(Roles::$colsDataGrid);
+        foreach ($resCols as $key => $arrCols) {
+            // if ($arrCols['visible']) {
+            array_push($cols, array(
+                'name' => $key,
+                'title' => $arrCols['label'],
+                    // 'resizable' => $arrCols['resizable'],
+            ));
+            array_push($colsQuery, $key);
+            // Columns hidden by default
+            if (isset($arrCols['visible']) && !$arrCols['visible']) {
+                array_push($colsHidden, $key);
+            }
+            // Columns which can order
+            if (isset($arrCols['order']) && $arrCols['order']) {
+                array_push($colsOrder, $key);
+            }
+            // Columns which can sort
+            if (isset($arrCols['sorting']) && !$arrCols['sorting']) {
+                $direction = 'asc';
+                array_push($colsSorting, array(
+                    'columnName' => $key,
+                    'direction' => $direction,
+                ));
+            }
+            // Default columns size
+            $size = 180;
+            if (isset($arrCols['width']) && !empty($arrCols['width'])) {
+                $size = $arrCols['width'];
+            }
+            array_push($colsWidths, array(
+                'columnName' => $key,
+                'width' => $size,
+            ));
+        }
+        $resDatas = DB::table('roles as r')->select($colsQuery)->get();
+        $datas = $resDatas->map(function ($obj) {
+            $arr = (array)$obj;
+            return $arr;
+        })->toArray();
+
+        return array(
+            'columns' => $cols,
+            'columnsHidden' => $colsHidden,
+            'columnsSorting' => $colsSorting,
+            'columnsFilters' => $colsFilters,
+            'columnsOrder' => $colsOrder,
+            'columnsWidths' => $colsWidths,
+            'datas' => $datas
+        );
     }
 
     /**

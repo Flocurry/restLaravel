@@ -22,10 +22,9 @@ class UsersController extends Controller
      */
     public function index()
     {
-        // Cette méthode doit retournée un array des colonnes de la table
-        // et un array des données de la table pour le component ReactDataGrid
+        // Cette mï¿½thode doit retournï¿½e un array des colonnes de la table
+        // et un array des donnï¿½es de la table pour le component ReactDataGrid
         $cols = $colsQuery = $colsHidden = $colsSorting = $colsFilters = $colsWidths = $colsOrder = array();
-        // $resDatas = DB::table('users as u')->join('roles as r', 'u.role_id', '=', 'r.role_id')->select()->get();
         $resCols = array_merge(Users::$colsDataGrid);
         foreach ($resCols as $key => $arrCols) {
             // if ($arrCols['visible']) {
@@ -64,7 +63,6 @@ class UsersController extends Controller
         $resDatas = DB::table('users as u')->select($colsQuery)->get();
         $datas = $resDatas->map(function ($obj) {
             $arr = (array)$obj;
-            // $arr['image'] = 'http://localhost/users/image/' . $arr['image'];
             return $arr;
         })->toArray();
 
