@@ -23,5 +23,6 @@ class Users extends Model
         'image' => array('label' => 'Avatar', 'visible' => false, 'order' => true, 'sorting' => true),
         'role_id' => array('label' => 'Role_id', 'visible' => false, 'order' => true, 'sorting' => true),
         'is_connected' => array('label' => 'Connecte', 'visible' => false, 'order' => true, 'sorting' => true),
+        'action' => array('label' => 'Action', 'visible' => true, 'order' => false, 'sorting' => false)
     );
 }

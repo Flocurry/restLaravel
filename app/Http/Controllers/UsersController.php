@@ -33,7 +33,7 @@ class UsersController extends Controller
                 'title' => $arrCols['label'],
                     // 'resizable' => $arrCols['resizable'],
             ));
-            array_push($colsQuery, $key);
+            
             // Columns hidden by default
             if (!$arrCols['visible']) {
                 array_push($colsHidden, $key);
@@ -60,12 +60,9 @@ class UsersController extends Controller
                 'width' => $size,
             ));
         }
-        $resDatas = DB::table('users as u')->select($colsQuery)->get();
-        $datas = $resDatas->map(function ($obj) {
-            $arr = (array)$obj;
-            return $arr;
-        })->toArray();
-
+        // Add fake column action
+        $datas = DB::select("select *, '' as action from users");
+        
         return array(
             'columns' => $cols,
             'columnsHidden' => $colsHidden,
